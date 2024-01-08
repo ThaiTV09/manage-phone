@@ -1,0 +1,50 @@
+{% extends "app/base.html" %}
+{%load static%}
+{% block title %}Phone Records{% endblock title %}
+  
+{% block content %}
+
+ <div class="col-md-12">
+    <span style="margin-bottom:10px">
+        <a href="/service" class="btn btn-primary">Không phát sinh dữ liệu</a>        
+        <a href="/service_low" class="btn btn-primary">Dữ liệu phát sinh thấp</a>    
+        <a href="/service_high" class="btn btn-primary">Dữ liệu phát sinh cao</a>         
+    </span>
+    <form method="POST" class="post-form" action="{% url 'service' %}">
+        {% csrf_token %}    
+            Thuê bao không phát sinh dữ liệu từ THÁNG:
+            <input type="text" placeholder="chọn 01/tháng/năm" onfocus="(this.type='date')" name="fromdate"/>
+            đến THÁNG: 
+            <input type="text" placeholder="chọn 30/tháng/năm" onfocus="(this.type='date')" name="todate"/>
+                    <input type="submit" value="Tìm kiếm"/>
+    <hr />
+<!--Table chưa xuất dữ liệu theo điều kiện-->
+        <div class="table-responsive">
+        <table id="example" class="table table-hover" width="100%">
+        <thead>
+            <th><input type="checkbox" id="checkall" /></th>
+            <th>Phone</th>
+            <th>Serial</th>
+            <th>Dữ liệu</th>
+            <th>thời gian sử dụng</th>
+            <th>Đơn vị</th>
+            <th>Chương trình</th>
+        </thead>
+        <tbody>
+        {% for phoneitem in phoneitems %}  
+            <tr>  
+            <td><input type="checkbox" class="checkthis" /></td>
+            <td>{{phoneitem.serial.phone}}</td>
+            <td>{{phoneitem.serial.serial}}</td>
+            <td>{{phoneitem.data}}</td>
+            <td>{{phoneitem.date_use}}</td>
+            <td>{{phoneitem.serial.department_id}}</td>            
+            <td>{{phoneitem.serial.system_id}}</td> 
+            </tr>  
+        {% endfor %} 
+        </tbody>
+        </table>
+        </div>                
+    </form>
+</div>
+{% endblock content %}

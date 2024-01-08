@@ -1,0 +1,206 @@
+{% extends "app/base.html" %}
+{%load static%}
+  
+{% block content %}
+<div id="content-wrapper" style="padding-top: 5px" >
+    <div class="row">
+        <div class="col-lg-8 mb-4 order-0" style="width:320px">
+          <div class="card">
+            <div class="d-flex align-items-end row">
+              <div class="col-sm-10">
+                <div class="card-body">
+                  {% for de in depart %}
+                  <h5 class="card-title text-primary">{{de.department}}</h5>
+                  {% endfor %}
+                  <p class="card-title mb-2">Số thuê bao đang sử dụng: <span class="fw-medium"><strong>{{totalserial}} Thuê bao</strong></span></p>
+                  <p class="card-title mb-2">Chi phí hàng tháng: <span class="fw-medium"><strong>{{fee_totalserial}} đồng</strong></span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12 order-1" style="width:780px">
+          <div class="row">
+            <div class="col-lg-6 col-md-12 col-6 mb-4" style="width:200px">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="avatar flex-shrink-0">
+                        <img src="{% static 'app/image/Mobifone.png' %}" alt="chart success" class="rounded" width="30" height="30">
+                      </div>
+                    </div>
+                    <span class="fw-medium d-block mb-1">Số lượng:</span>
+                    <p class="card-title mb-2"><span class="fw-medium"><strong>{{totalmobi}} Thuê bao</strong></span></p>
+                    <span class="fw-medium d-block mb-1">Chi phí:</span>
+                    <p class="card-title mb-2"><span class="fw-medium"><strong>{{fee_totalmobi}} đồng</strong></span></p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-12 col-6 mb-4" style="width:200px">
+              <div class="card">
+                <div class="card-body">
+                  <div class="card-title d-flex align-items-start justify-content-between">
+                    <div class="avatar flex-shrink-0">
+                      <img src="{% static 'app/image/Viettel.png' %}" alt="chart success" class="rounded" width="30" height="30">
+                    </div>
+                  </div>
+                  <span class="fw-medium d-block mb-1">Số lượng:</span>
+                  <p class="card-title mb-2"><span class="fw-medium"><strong>{{totalvtel}} Thuê bao</strong></span></p>
+                  <span class="fw-medium d-block mb-1">Chi phí:</span>
+                  <p class="card-title mb-2"><span class="fw-medium"><strong>{{fee_totalvtel}} đồng</strong></span></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-6 mb-4" style="width:190px">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="avatar flex-shrink-0">
+                        <img src="{% static 'app/image/Vinaphone.png' %}" alt="chart success" class="rounded" width="30" height="30">
+                      </div>
+                    </div>
+                    <span class="fw-medium d-block mb-1">Số lượng:</span>
+                    <p class="card-title mb-2"><span class="fw-medium"><strong>{{totalvina}} đồng</strong></span></p>
+                    <span class="fw-medium d-block mb-1">Chi phí:</span>
+                    <p class="card-title mb-2"><span class="fw-medium"><strong>{{fee_totalvina}} đồng</strong></span></p>
+                  </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-6 mb-4" style="width:190px">
+              <div class="card">
+                <div class="card-body">
+                  <div class="card-title d-flex align-items-start justify-content-between">
+                    <div class="avatar flex-shrink-0">
+                      <img src="{% static 'app/image/Tang.png' %}" alt="chart success" class="rounded" width="50" height="30"> Năm 2023
+                    </div>
+                  </div>
+                  <span class="fw-medium d-block mb-1">Phát triển: </span>
+                  <p class="card-title mb-2"><span class="fw-medium"><strong>{{count}} thuê bao</strong></span></p>
+                  <span class="fw-medium d-block mb-1">Chi phí:</span>
+                  <p class="card-title mb-2"><span class="fw-medium"><strong>{{money}} đồng</strong></span></p>
+                </div>
+              </div>
+          </div>
+          </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Overview</li>
+        </ol>
+        <div class="selectbox">
+          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Chọn đơn vị 
+          </a>
+        
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            {% for depart in departments %}
+            <a class="dropdown-item" href="{% url 'chart_fee_system' %}?chat_fee_system={{ depart.department_id }}">{{depart.department}}</a>
+            {% endfor %}
+          </div>
+        </div>
+        <!-- Icon Cards-->
+        <div class="row">
+          <div class="col-sm-6">    
+              <canvas id="myChart" width="300" height="200"></canvas>
+                  <div>
+      
+      <script type="text/javascript">
+          var ctx = document.getElementById('myChart').getContext('2d');
+          var myChart = new Chart(ctx, {
+              type: 'bar',
+              data: {
+                  labels: [{% for course in n_course_list %} '{{ course }}', {% endfor %}],
+                  datasets: [{
+                      label:'Số lượng thuê bao theo chương trình ',
+                      data: [{% for number in n_number_list %} '{{ number }}', {% endfor %}],
+                      backgroundColor:[
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(54, 162, 135, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(151, 102, 132, 1)',
+                      'rgba(153, 99, 132, 1)',
+                      'rgba(255, 159, 64, 1)',
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(54, 162, 135, 1)',
+                      'rgba(25, 206, 86, 1)',
+                      'rgba(211, 192, 192, 1)',
+                      'rgba(234, 102, 132, 1)',
+                      'rgba(153, 99, 132, 1)',
+                      'rgba(255, 159, 64, 1)',
+                      'gree',
+                      'yellow',
+                      ],
+      
+                      borderColor: [
+                      'rgba(54, 162, 135, 1)',
+                      'rgba(25, 206, 86, 1)',
+                      'rgba(211, 192, 192, 1)',
+                      'rgba(234, 102, 132, 1)',
+                      'rgba(153, 99, 132, 1)',
+                      'rgba(255, 159, 64, 1)',
+      
+                      ],
+      
+                      borderWidth: 1
+                  }]
+              },
+      
+              options: {
+                  scales: {
+                      xAxes: [{
+                          ticks: {
+                              beginAtZero: true,                                
+                              maxRotation: 90,
+                              minRotation: 90
+                          }
+                      }]
+                  }
+              }
+          })
+      </script>        
+                  </div> 
+              </div>
+
+          <div class="col-sm-6">    
+          <canvas id="myChart1" width="300" height="200"></canvas>
+              <div>
+
+      <script type="text/javascript">
+      var ctx = document.getElementById('myChart1').getContext('2d');
+      var myChart1 = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [{% for course in course_list %} '{{ course }}', {% endfor %}],
+            datasets: [{
+                label:'Cước phát sinh theo chương trình (Đồng) ',
+                data: [{% for number in number_list %} '{{ number }}', {% endfor %}],
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        },
+
+        options: {
+            scales: {
+                xAxes: [{
+                  ticks: {
+                    beginAtZero: true,                                
+                    maxRotation: 90,
+                    minRotation: 90
+                  }
+                }]
+            }
+        }
+      })
+      </script>
+<!-- end of static icon -->           
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,47 @@
+{% extends "app/base.html" %}
+{%load static%}
+{% block title %}Phone Records{% endblock title %}
+  
+{% block content %}
+
+ <div class="col-md-12">
+<!--Table chưa xuất dữ liệu theo điều kiện-->
+    {% comment %} <div style ="text-align:right;">
+            <a href="{% url 'export_to_excel' %}"> <img src="{% static 'app/image/export_excel.png' %}" width="30" height="30" >Excel</a>
+            <a href="{% url 'export_query_to_csv' %}"> <img src="{% static 'app/image/csv.png' %}" width="30" height="30" >CSV</a>  
+    </div> {% endcomment %}
+        <span>
+            <a href="/addnew" class="btn btn-primary">Thêm mới thuê bao</a>
+            <a href="{% url 'export_to_excel' %}"> <img src="{% static 'app/image/export_excel.png' %}" width="30" height="30" >Excel</a>
+            <a href="{% url 'export_query_to_csv' %}"> <img src="{% static 'app/image/csv.png' %}" width="30" height="30" >CSV</a>  
+        </span>  
+        <div class="table-responsive">
+        <table id="bootstrapdatatable" class="table table-hover" width="100%">
+        <thead>
+            <th><input type="checkbox" id="checkall" /></th>
+            <th>Phone</th>
+            <th>Serial</th>
+            <th>Nhà mạng</th>
+            <th>Ngày sử dụng</th>
+            <th>Đơn vị</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </thead>
+        <tbody>
+        {% for phone in phones %}  
+            <tr>  
+            <td><input type="checkbox" class="checkthis" /></td>
+            <th scope="row">{{phone.phone}}</th>
+            <td>{{phone.serial}}</td>
+            <td>{{phone.network_id}}</td>  
+            <td>{{phone.date_join}}</td>
+            <td>{{phone.department_id}}</td>
+            <td><a href="/edit/{{ phone.serial }}" class="btn btn-primary">Edit</a></td>
+            <td><a href="/delete/{{ phone.serial }}" class="btn btn-danger" >Delete</a></td>  
+            </tr>  
+        {% endfor %} 
+        </tbody>
+        </table>
+        </div>
+    </div>
+{% endblock content %}

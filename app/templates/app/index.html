@@ -1,0 +1,66 @@
+{% extends "app/base.html" %}
+  
+{% block title %}Add New Phone Records{% endblock title %}
+  
+{% block content %}
+<div class="col-md-12">    
+    <form method="POST" class="post-form" action="/addnew">  
+    {% csrf_token %}  
+    <div class="container">  
+        <div class="col-12">  
+        <h3>THÊM MỚI THUÊ BAO</h3>  
+        </div>    
+     
+        <div class="mb-3"> 
+            <label>Số điện thoại:</label>  
+            {{ form.phone }}   
+        </div> 
+        <div class="mb-3"> 
+            <label>Serial:</label>  
+            {{ form.serial }}   
+        </div>  
+        <div class="mb-3"> 
+            <label>Gói cước:</label>  
+            {{ form.pack }}   
+        </div>
+        <div class="mb-3"> 
+            <label >Thành tiền:</label>  
+            {{ form.money }}   
+        </div>
+        <div class="mb-3">       
+            <label>Ngày hòa mạng:</label>
+            {{ form.date_connect }} 
+        </div>
+        <div class="mb-3"> 
+            <label>Đơn vị sử dụng:</label>
+            {{ form.department_id }}   
+            {% comment %} <select id="id_department" name="department" class="form-control" >
+                <option value="{{ phone.department_id }}" selected data-default>{{phone.department_id}}</option>
+                {% for depart in departments %}
+                    <option value="{{depart.department_id}}" >{{depart.department}}</option>
+                {% endfor %}
+            </select> {% endcomment %}
+        </div>
+        <div class="mb-3" >
+            <label>Ngày sử dụng:</label>              
+            {{ form.date_join }} 
+        </div>
+        <div class="mb-3">       
+            <label>Trạng thái:</label>
+            {{ form.status_id }} 
+        </div>
+        <div class="mb-3">       
+            <label>Hệ thống sử dụng:</label>
+            {{ form.system_id }} 
+        </div>
+        <div class="mb-3">       
+            <label>Nhà mạng:</label>
+            {{ form.network_id }} 
+        </div>
+        <div class="mb-3"> 
+            <button type="submit" class="btn btn-primary">Submit</button>    
+        </div> 
+    </div>  
+    </form>  
+</div> 
+{% endblock content %} 

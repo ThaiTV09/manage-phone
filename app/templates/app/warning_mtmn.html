@@ -1,0 +1,43 @@
+{% extends "app/base.html" %}
+{%load static%}
+{% block title %}Phone Records{% endblock title %}
+  
+{% block content %}
+<p class="card-title" style="font-size:2vw"><b><strong><u>DANH SÁCH THUÊ BAO SỬ DỤNG SAI GÓI CƯỚC HỆ THỐNG MTMN</u></strong></b></p>
+  <div class="col-md-12">
+    <span >
+        <a href="/warning_spider" class="btn btn-primary">Thuê bao Spider</a>        
+        <a href="/warning_scada" class="btn btn-primary">Thuê bao SCADA</a>    
+        <a href="/warning_dspm" class="btn btn-primary">Thuê bao DSPM</a>
+        <a href="/warning_mtmn" class="btn btn-primary">Thuê bao MTMN</a>  
+        <a href="/warning_data" class="btn btn-primary">Thuê bao SRFI</a>          
+    </span>
+<!--Table chưa xuất dữ liệu theo điều kiện-->
+        <div class="table-responsive">
+        <table id="example" class="table table-hover" width="100%">
+        <thead>
+            <th><input type="checkbox" id="checkall" /></th>
+            <th>Phone</th>
+            <th>Serial</th>
+            <th>Dữ liệu</th>
+            <th>thời gian sử dụng</th>
+            <th>Đơn vị</th>
+            <th>Chương trình</th>
+        </thead>
+        <tbody>
+        {% for phoneitem in phoneitems %}  
+            <tr>  
+            <td><input type="checkbox" class="checkthis" /></td>
+            <td>{{phoneitem.serial.phone}}</td>
+            <td>{{phoneitem.serial.serial}}</td>
+            <td>{{phoneitem.data}}</td>
+            <td>{{phoneitem.date_use}}</td>
+            <td>{{phoneitem.serial.department_id}}</td>            
+            <td>{{phoneitem.serial.system_id}}</td> 
+            </tr>  
+        {% endfor %} 
+        </tbody>
+        </table>
+        </div>
+    </div>
+{% endblock content %}

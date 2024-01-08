@@ -1,0 +1,59 @@
+{% extends "app/base.html" %}
+  
+{% block title %}Add New Phone Records{% endblock title %}
+  
+{% block content %}
+<div class="col-md-12">
+    <form method="POST" class="post-form" action="/update/{{phone.serial}}">  
+    {% csrf_token %}  
+    <div class="container">   
+        <div class="col-12">  
+            <h3>Update Details</h3>  
+        </div> 
+        <div class="mb-3"> 
+            <label>Serial:</label>  
+            <input type="text" class="form-control" name="serial" id="id_serial" required maxlength="100" value="{{ phone.serial }}" />  
+        </div> 
+        <div class="mb-3"> 
+            <label>Pack:</label>  
+            <input type="text" class="form-control" name="pack" id="id_pack" required maxlength="254" value="{{ phone.pack }}" />  
+        </div> 
+        <div class="mb-3"> 
+            <label>Money:</label>  
+            <input type="text" class="form-control" name="money" id="id_money" required maxlength="20" value="{{ phone.money }}" />  
+        </div>
+        <div class="mb-3"> 
+            <label>department:</label> 
+        </br>
+        {{ form.department_id }}  
+        {% comment %} <select id="id_department" name="department" class="form-control" value = "{{depart.department}}">
+            <option value="{{ phone.department }}" selected data-default>{{phone.department_id}}</option>
+            {% for depart in departments %}
+                <option value="{{depart.department_id}}" >{{depart.department}}</option>
+            {% endfor %}
+        </select> {% endcomment %}
+        </div>
+        <div class="mb-3">       
+            <label>Trạng thái:</label>
+            {{ form.status_id }} 
+        </div>
+        <div class="mb-3">       
+            <label>Hệ thống sử dụng:</label>
+            {{ form.system_id }} 
+        </div> 
+        <div class="mb-3"> 
+            <label>Date_join:</label>  
+        </br>
+            <input placeholder="{{ phone.date_join }}" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"
+            id="date" class="form-control" name="date_join" id="id_date_join" required maxlength="15" value="{{ phone.date_join }}" />  
+    </div>
+        </div>  
+        <div class="mb-3"> 
+            <button type="submit" class="btn btn-success btn-lg">Update</button>  
+        </div> 
+    </div>
+      
+    </form>  
+{% endblock content %}
+<div class="mb-3"> 
+    <label>Đơn vị sử dụng:</label>  
